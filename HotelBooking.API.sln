@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.API", "HotelBo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.Shared", "HotelBooking.Shared\HotelBooking.Shared.csproj", "{276783A7-75FE-4439-A3DA-C6AF153E6468}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Web", "HotelBooking.Web\HotelBooking.Web.csproj", "{34101763-1851-4B77-A195-C7B839005033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.Web", "HotelBooking.Web\HotelBooking.Web.csproj", "{34101763-1851-4B77-A195-C7B839005033}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

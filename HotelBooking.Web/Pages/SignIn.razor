@@ -1,0 +1,72 @@
+﻿@page "/SignIn"
+
+@inherits SignInBase
+
+
+
+<h3 class="text-center mainHeaderText mb-1">Sign In: </h3>
+
+@if (_signInSuccessful == false)
+{
+
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-lg" style="border-radius: 1rem;">
+                    <div class="card-body p-5">
+
+                        <EditForm Model="_logInUserDto" OnValidSubmit="SignInUser">
+                            <DataAnnotationsValidator />
+
+                            <div class="form-group">
+                                <label class="label-name" for="email">Email:</label>
+                                <InputText @bind-Value="_logInUserDto.EmailAddress" id="email" class="form-control" />
+                                <ValidationMessage For="@(()=> _logInUserDto.EmailAddress)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label-name" for="password">Password:</label>
+                                <InputText @bind-Value="_logInUserDto.Password" type="password" id="password" class="form-control" />
+                                <div class="form-check mt-1">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" @onclick="HidePassword">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Show Password
+                                    </label>
+                                </div>
+
+                                <ValidationMessage For="@(()=> _logInUserDto.Password)" />
+                            </div>
+
+                            <ValidationSummary />
+
+                            <div class="d-grid gap-2 mt-3">
+                                <button type="submit" class="btn btn-secondary btnSubmit buttonText"><i class="mdi mdi-login"></i> Sign In</button>
+                            </div>
+
+                            <hr class="my-4">
+                            <div>
+                                <p class="mb-0">Don't have an account? <a class="text-dark" href="/register" style="color:darkgrey"> Register</a></p>
+                            </div>
+                            @if (_attemptToSignInFailed)
+                            {
+                                <p class="text-danger">Sign In failed. Check your inputs.</p>
+                            }
+
+
+                        </EditForm>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+    navigationManager.NavigateTo("/", true);
+}
+
+
