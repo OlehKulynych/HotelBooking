@@ -67,5 +67,15 @@ namespace HotelBooking.API.Controllers
             await _roomService.UpdateRoomAsync(roomDto);
             return Ok();
         }
+
+        [HttpPut]
+        [Route("UpdateImage")]
+        public async Task<ActionResult> UpdateImage(RoomUpdateImageDto roomUpdateImage)
+        {
+
+            await _roomService.UpdateImageAsync(roomUpdateImage);
+            return Ok();
+
+        }
     }
 }

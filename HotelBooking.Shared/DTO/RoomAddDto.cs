@@ -14,5 +14,7 @@ namespace HotelBooking.Shared.DTO
         public int RoomTypeId { get; set; }
         public bool isAvailable { get; set; }
         public decimal Price { get; set; }
+        public string? ImageString { get; set; }
+        public string? ImageName { get; set; }
     }
 }

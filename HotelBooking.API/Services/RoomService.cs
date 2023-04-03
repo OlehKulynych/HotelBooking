@@ -46,5 +46,11 @@ namespace HotelBooking.API.Services
             room.RoomType = await _roomTypeRepository.GetRoomTypeByIdAsync(roomDto.RoomTypeId);
             await _roomRepository.UpdateRoomAsync(room);
         }
+
+        public async Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImage)
+        {
+            await _roomRepository.UpdateImageAsync(roomUpdateImage.Id, roomUpdateImage.Image);
+
+        }
     }
 }

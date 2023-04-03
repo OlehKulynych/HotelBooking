@@ -43,5 +43,11 @@ namespace HotelBooking.API.Repository
             _dataBaseContext.Update(room);
             await _dataBaseContext.SaveChangesAsync();
         }
+        public async Task UpdateImageAsync(int Id, string Image)
+        {
+            var book = await _dataBaseContext.Rooms.Where(i => i.Id == Id).FirstOrDefaultAsync();
+            book.ImageString = Image;
+            await _dataBaseContext.SaveChangesAsync();
+        }
     }
 }
