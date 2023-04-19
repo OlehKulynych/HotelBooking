@@ -10,6 +10,7 @@ namespace HotelBooking.Shared.DTO
 {
     public class UserDto
     {
+        public string Id { get; set; }
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }

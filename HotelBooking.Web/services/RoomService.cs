@@ -1,5 +1,6 @@
 ﻿using HotelBooking.Shared.DTO;
 using HotelBooking.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
 
 namespace HotelBooking.Web.Services
@@ -57,6 +58,12 @@ namespace HotelBooking.Web.Services
         public async Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImageDto)
         {
             await _httpClient.PutAsJsonAsync("api/Room/UpdateImage", roomUpdateImageDto);
+        }
+
+        public async Task ReserveRoomAsync(int id, ReservationDto reservationDto)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/Room/Reserve/{id}", reservationDto);
+         
         }
     }
 }

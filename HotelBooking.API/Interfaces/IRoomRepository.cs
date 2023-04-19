@@ -10,5 +10,6 @@ namespace HotelBooking.API.Interfaces
         Task DeleteRoomAsync(int id);
         Task UpdateRoomAsync(Room room);
         Task UpdateImageAsync(int Id, string Image);
+        Task ReserveRoomAsync(int id, Reservation reservation);
     }
 }

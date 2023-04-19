@@ -1,10 +1,14 @@
-﻿@using HotelBooking.Shared.DTO;
+﻿@page "/"
+@using HotelBooking.Shared.DTO;
 @inherits RoomsBase
 
 
 <h3 class="text-center mainHeaderText">All Rooms</h3>
 
-<h1>@ErrorMessage</h1>
+@if(ErrorMessage != null)
+{
+    <h1>@ErrorMessage</h1>
+}
 
 @if (Rooms == null)
 {

@@ -77,5 +77,20 @@ namespace HotelBooking.API.Controllers
             return Ok();
 
         }
+
+        [HttpPost]
+        [Route("Reserve/{id}")]
+        public async Task<IActionResult> ReserveRoom(int id, ReservationDto reservationDto)
+        {
+            try
+            {
+                await _roomService.ReserveRoomAsync(id, reservationDto);
+                return Ok();
+            }
+            catch(Exception)
+            {
+                return BadRequest("This room is not available for the selected dates.");
+            }
+        }
     }
 }

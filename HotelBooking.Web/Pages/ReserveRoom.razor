@@ -1,0 +1,63 @@
+﻿@page "/Room/Reserve/{id:int}"
+@inherits ReserveRoomBase
+
+
+@if (ErrorMessage != null)
+{
+    <p>@ErrorMessage</p>
+}
+
+
+<h3 class="text-center mainHeaderText mb-1">Reserve Room: </h3>
+
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <EditForm Model="reservationDto">
+
+                        <div class="form-group">
+                            <label class="label-name">Start Date:</label>
+                            <div>
+                                <input type="date" class="form-control p-2 rounded-2" @bind="reservationDto.StartDate" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-name">End Date:</label>
+                            <div>
+                                <input type="date" class="form-control p-2 rounded-2" @bind="reservationDto.EndDate" />
+
+                            </div>
+                        </div>
+                    </EditForm>
+
+
+                    @if (reservationDto.EndDate < reservationDto.StartDate)
+                    {
+
+                        <p> Помилка при виборі дати: Дата виїзду не може бути раніша, кіж дата заїзду</p>
+                    }
+                    else
+                    {
+
+                        decimal TotalPrice = 0;
+
+                        TotalPrice = roomDto.Price * (reservationDto.EndDate - reservationDto.StartDate).Days;
+                        reservationDto.TotalPrice = TotalPrice;
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2">
+                            <p class="price m-2 me-md-2" style="font-size: 15px;">Total Price: @(TotalPrice.ToString("C"))</p>
+                        </div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button @onclick="ReserveRoom" class="btn btn-secondary btnSubmit buttonText"><i class="mdi mdi-plus-box"></i> Reserve</button>
+                            <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,5 +10,6 @@
         public string PasswordHash { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }

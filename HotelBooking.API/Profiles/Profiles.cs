@@ -54,6 +54,7 @@ namespace HotelBooking.API.Profiles
                .ForMember(
                dest => dest.EmailAddress,
                opt => opt.MapFrom(src => src.Email));
+            CreateMap<Reservation, ReservationDto>().ReverseMap();
         }
     }
 }

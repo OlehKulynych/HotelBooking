@@ -52,5 +52,11 @@ namespace HotelBooking.API.Services
             await _roomRepository.UpdateImageAsync(roomUpdateImage.Id, roomUpdateImage.Image);
 
         }
+
+        public async Task ReserveRoomAsync(int id, ReservationDto reservationDto)
+        {
+            var reservation = _mapper.Map<Reservation>(reservationDto);
+            await _roomRepository.ReserveRoomAsync(id, reservation);
+        }
     }
 }

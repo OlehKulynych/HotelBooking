@@ -11,5 +11,6 @@
         public decimal Price { get; set; }
         public string? ImageString { get; set; }  
         public virtual RoomType RoomType { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace HotelBooking.API.Repository.DataBaseContext
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
 
     }

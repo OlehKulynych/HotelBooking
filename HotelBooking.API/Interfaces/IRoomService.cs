@@ -1,4 +1,5 @@
-﻿using HotelBooking.Shared.DTO;
+﻿using HotelBooking.API.Models;
+using HotelBooking.Shared.DTO;
 
 namespace HotelBooking.API.Interfaces
 {
@@ -10,5 +11,6 @@ namespace HotelBooking.API.Interfaces
         public Task DeleteRoomAsync(int id);
         public Task UpdateRoomAsync(RoomDto roomDto);
         public Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImage);
+        Task ReserveRoomAsync(int id, ReservationDto reservationDto);
     }
 }

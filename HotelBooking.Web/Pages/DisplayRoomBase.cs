@@ -7,12 +7,13 @@ namespace HotelBooking.Web.Pages
     {
         [Parameter]
         public IEnumerable<RoomDto> Rooms { get; set; }
-        [Inject]
-
-        public string ErrorMessage { get; set; }
+        
         [Inject]
         public NavigationManager navigationManager { get; set; }
 
-        
+        protected void Reserve(int Id)
+        {
+            navigationManager.NavigateTo($"/Room/Reserve/{Id}");
+        }
     }
 }
