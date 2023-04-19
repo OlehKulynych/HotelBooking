@@ -53,5 +53,10 @@ namespace HotelBooking.Web.Services
         {
             await _httpClient.PutAsJsonAsync("api/Room/UpdateRoom", roomDto);
         }
+
+        public async Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImageDto)
+        {
+            await _httpClient.PutAsJsonAsync("api/Room/UpdateImage", roomUpdateImageDto);
+        }
     }
 }

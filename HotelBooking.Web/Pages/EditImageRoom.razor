@@ -1,0 +1,40 @@
+﻿@page "/Room/EditRoomImage/{Id:int}"
+@inherits EditImageRoomBase
+
+
+<h3 class="text-center mainHeaderText mb-1">Edit Image Room:</h3>
+
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <form>
+                        <div class="form-group">
+                            <label class="label-name">Image:</label>
+                            <div>
+                                <InputFile OnChange="@OnInputFileChanged" class="form-control" />
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="label-name">Result:</label>
+                            <img src="@contentString" class="border-1 rounded-2 form-control" height="600px">
+
+                        </div>
+                    </form>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <button @onclick="UpdateImage" class="btn btn-secondary btnSubmit buttonText">
+                            <i class="mdi mdi-image-edit"></i> Edit Image
+                        </button>
+                        <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
