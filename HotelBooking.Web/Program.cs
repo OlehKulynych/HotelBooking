@@ -1,6 +1,8 @@
 using Blazored.LocalStorage;
 using HotelBooking.Web;
 using HotelBooking.Web.Providers;
+using HotelBooking.Web.Services;
+using HotelBooking.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -18,5 +20,10 @@ builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("http
 
 builder.Services.AddScoped<AuthenticationStateProvider, ClientAuthenticationStateProvider>();
 builder.Services.AddBlazoredLocalStorage();
+
+
+builder.Services.AddTransient<IRoomService, RoomService>();
+builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 await builder.Build().RunAsync();

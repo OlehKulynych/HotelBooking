@@ -1,0 +1,50 @@
+﻿@using HotelBooking.Shared.DTO;
+@inherits RoomsBase
+
+
+<h3 class="text-center mainHeaderText">All Rooms</h3>
+
+<h1>@ErrorMessage</h1>
+
+@if (Rooms == null)
+{
+    <div class="row">
+        <div class="mt-5 col-xs-1 center-block text-center">
+            <h3 style="font-family:'Anton';">
+                <div class="spinner-border text-secondary me-2" role="status">
+                    <span class="visually-hidden">Loading</span>
+                </div>Loading...
+            </h3>
+        </div>
+    </div>
+
+}
+else
+{
+    var count = Rooms.Count();
+    if (count > 0)
+    {
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+
+                @{
+                    var rooms = new List<RoomDto>();
+                    rooms = Rooms.ToList();
+                    <DisplayRoom Rooms="@rooms">
+                    </DisplayRoom>
+                }
+            </div>
+
+        </div>
+
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="mt-5 col-xs-1 center-block text-center">
+                <h3 style="font-family:'Anton';" class="">Empty</h3>
+            </div>
+        </div>
+    }
+}

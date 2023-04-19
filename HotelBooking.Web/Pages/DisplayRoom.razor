@@ -1,0 +1,51 @@
+﻿@inherits DisplayRoomBase
+@foreach (var item in Rooms)
+{
+    if (!item.isAvailable)
+    {
+
+        <div class="card card-book m-sm-3  border rounded-3" style="width: 20rem;">
+            <div class="p-sm-2">
+                <img class="card-img-top img-book border rounded-3" src="data:image/jpeg;base64,@item.ImageString" />
+
+                <div class="card-body">
+
+                    <h4><a class="card-title"> @item.RoomNumber</a></h4>
+                    <p class="card-text" style="color: grey"> @item.NumberOfBeds</p>
+                    <p class="card-text" style="color: grey"> @item.RoomTypeName</p>
+                    <p class="card-text price" style="font-size: 20px;"> @item.Price.ToString("C")</p>
+                </div>
+            </div>
+
+            <div class="card-footer d-grid gap-2">
+                <button class="buybtn btn btn-dark buttonText">
+                    <i class="me-1 mdi mdi-cart-arrow-down"></i>  Add to Cart
+                </button>
+            </div>
+
+        </div>
+    }
+
+
+}
+
+<style>
+    .card-footer {
+        background-color: #FFE3C8;
+    }
+
+    .img-book {
+        height: 300px;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .buybtn:hover {
+        color: black;
+        background-color: grey;
+    }
+</style>
+
