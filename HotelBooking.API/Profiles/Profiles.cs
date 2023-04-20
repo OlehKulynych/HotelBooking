@@ -54,7 +54,16 @@ namespace HotelBooking.API.Profiles
                .ForMember(
                dest => dest.EmailAddress,
                opt => opt.MapFrom(src => src.Email));
-            CreateMap<Reservation, ReservationDto>().ReverseMap();
+            CreateMap<Reservation, ReservationAddDto>().ReverseMap();
+            CreateMap<ReservationDto, Reservation>();
+            CreateMap<Reservation, ReservationDto>()
+                .ForMember(
+                dest => dest.StatusReservationName,
+                opt => opt.MapFrom(src => src.StatusReservation.ToString()))
+                .ForMember(
+                dest => dest.UserName,
+                opt => opt.MapFrom(src => (src.User.Name + " " + src.User.Surname).ToString()));
+
         }
     }
 }

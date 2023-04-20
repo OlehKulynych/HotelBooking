@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.Components;
 
 namespace HotelBooking.Web.Pages
 {
-    public class RoomsBase: ComponentBase
+    public class ReservationBase: ComponentBase
     {
         [Inject]
-        public IRoomService roomService { get; set; }
+        public IReservationService reservationService { get; set; }
 
-        public IEnumerable<RoomDto> Rooms { get; set; }
+        public IEnumerable<ReservationDto> reservationDtos { get; set; }
         public string ErrorMessage { get; set; }
         protected override async Task OnInitializedAsync()
         {
             try
             {
-                Rooms = await roomService.GetRoomsAsync();
+                reservationDtos = await reservationService.GetReservationsAsync();
 
             }
             catch (Exception ex)
@@ -23,8 +23,6 @@ namespace HotelBooking.Web.Pages
                 ErrorMessage = ex.Message;
             }
 
-
         }
     }
 }
- 

@@ -11,9 +11,13 @@ namespace HotelBooking.Web.Pages
         public int Id { get; set; }
 
         [Inject]
+        public IReservationService _reservationService { get; set; }
+
+        [Inject]
         public IRoomService _roomService { get; set; }
 
-        public ReservationDto reservationDto = new ReservationDto() { StartDate = DateTime.Today, EndDate = DateTime.Today.AddDays(1)};
+
+        public ReservationAddDto reservationDto = new ReservationAddDto() { StartDate = DateTime.Today, EndDate = DateTime.Today.AddDays(1)};
 
         public RoomDto roomDto = new RoomDto();
         [Inject]
@@ -44,7 +48,7 @@ namespace HotelBooking.Web.Pages
         {
             try
             {
-                await _roomService.ReserveRoomAsync(Id, reservationDto);
+                await _reservationService.ReserveRoomAsync(Id, reservationDto);
                 navigationManager.NavigateTo("/");
 
             }

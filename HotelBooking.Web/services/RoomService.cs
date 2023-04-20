@@ -37,6 +37,20 @@ namespace HotelBooking.Web.Services
             return await response.Content.ReadFromJsonAsync<RoomDto>();
 
         }
+
+        public async Task<IEnumerable<RoomDto>> GetRoomByTypeIdAsync(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/Room/RoomByType/{id}");
+
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return Enumerable.Empty<RoomDto>();
+            }
+            return await response.Content.ReadFromJsonAsync<IEnumerable<RoomDto>>();
+
+        }
+
         public async Task<IEnumerable<RoomDto>> GetRoomsAsync()
         {
             var response = await _httpClient.GetAsync("api/Room");
@@ -60,10 +74,5 @@ namespace HotelBooking.Web.Services
             await _httpClient.PutAsJsonAsync("api/Room/UpdateImage", roomUpdateImageDto);
         }
 
-        public async Task ReserveRoomAsync(int id, ReservationDto reservationDto)
-        {
-            var response = await _httpClient.PostAsJsonAsync($"/api/Room/Reserve/{id}", reservationDto);
-         
-        }
     }
 }

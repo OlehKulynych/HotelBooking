@@ -8,10 +8,9 @@ namespace HotelBooking.Web.Services.Interfaces
         Task<IEnumerable<RoomDto>> GetRoomsAsync();
         Task<RoomDto> GetRoomById(int id);
         Task AddRoomAsync(RoomAddDto roomAddDto);
-
+        Task<IEnumerable<RoomDto>> GetRoomByTypeIdAsync(int id);
         Task DeleteRoomAsync(int id);
         Task UpdateBookAsync(RoomDto roomDto);
-        Task ReserveRoomAsync(int id, ReservationDto reservationDto);
         Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImageDto);
     }
 }

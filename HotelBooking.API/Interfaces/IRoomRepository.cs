@@ -1,4 +1,5 @@
 ﻿using HotelBooking.API.Models;
+using HotelBooking.Shared.DTO;
 
 namespace HotelBooking.API.Interfaces
 {
@@ -10,6 +11,7 @@ namespace HotelBooking.API.Interfaces
         Task DeleteRoomAsync(int id);
         Task UpdateRoomAsync(Room room);
         Task UpdateImageAsync(int Id, string Image);
-        Task ReserveRoomAsync(int id, Reservation reservation);
+
+        Task<IEnumerable<Room>> GetRoomByTypeIdAsync(int id);
     }
 }

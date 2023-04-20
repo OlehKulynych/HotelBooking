@@ -1,6 +1,7 @@
 ﻿using HotelBooking.API.Interfaces;
 using HotelBooking.API.Models;
 using HotelBooking.API.Repository.DataBaseContext;
+using HotelBooking.Shared.DTO;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
@@ -40,6 +41,10 @@ namespace HotelBooking.API.Repository
             return await _dataBaseContext.Rooms.Include(t => t.RoomType).ToListAsync();
         }
 
+        public async Task<IEnumerable<Room>> GetRoomByTypeIdAsync(int id)
+        {
+            return await _dataBaseContext.Rooms.Include(t => t.RoomType).Where(i => i.RoomTypeId == id).ToListAsync();
+        }
         public async Task UpdateRoomAsync(Room room)
         {
             _dataBaseContext.Update(room);
@@ -52,26 +57,6 @@ namespace HotelBooking.API.Repository
             await _dataBaseContext.SaveChangesAsync();
         }
 
-        public async Task ReserveRoomAsync(int id, Reservation reservation)
-        {
-
-            var room = await _dataBaseContext.Rooms.FindAsync(id);
-            if (room != null)
-            {
-                var overlappingReservations = await _dataBaseContext.Reservations
-            .Where(r => r.RoomId == id &&
-                        r.StartDate < reservation.EndDate &&
-                        r.EndDate > reservation.StartDate).ToListAsync();
-
-                if(overlappingReservations.Count > 0)
-                {
-                    throw new Exception();
-                }
-                reservation.RoomId = id;
-                reservation.StatusReservation = StatusReservation.Created;
-                _dataBaseContext.Reservations.Add(reservation);
-                await _dataBaseContext.SaveChangesAsync();
-            }
-        }
+       
     }
 }

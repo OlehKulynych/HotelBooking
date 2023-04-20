@@ -25,5 +25,6 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddTransient<IRoomService, RoomService>();
 builder.Services.AddTransient<IRoomTypeService, RoomTypeService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IReservationService, ReservationService>();
 
 await builder.Build().RunAsync();

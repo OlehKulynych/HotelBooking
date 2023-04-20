@@ -44,6 +44,21 @@ namespace HotelBooking.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("RoomByType/{id:int}")]
+        public async Task<ActionResult<RoomDto>> GetRoomByTypeId(int id)
+        {
+            var room = await _roomService.GetRoomByTypeIdAsync(id);
+            if (room != null)
+            {
+                return Ok(room);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
         [Route("AddRoom")]
         public async Task<ActionResult> AddRoom(RoomAddDto roomAddDto)
@@ -78,19 +93,6 @@ namespace HotelBooking.API.Controllers
 
         }
 
-        [HttpPost]
-        [Route("Reserve/{id}")]
-        public async Task<IActionResult> ReserveRoom(int id, ReservationDto reservationDto)
-        {
-            try
-            {
-                await _roomService.ReserveRoomAsync(id, reservationDto);
-                return Ok();
-            }
-            catch(Exception)
-            {
-                return BadRequest("This room is not available for the selected dates.");
-            }
-        }
+      
     }
 }
