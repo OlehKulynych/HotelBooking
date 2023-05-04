@@ -13,7 +13,7 @@ namespace HotelBooking.Web.Pages
 
         protected void Reserve(int Id)
         {
-            navigationManager.NavigateTo($"/Room/Reserve/{Id}");
+            navigationManager.NavigateTo($"/Reservation/Reserve/{Id}");
         }
     }
 }

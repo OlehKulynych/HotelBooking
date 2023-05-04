@@ -13,5 +13,6 @@ namespace HotelBooking.API.Interfaces
         Task UpdateImageAsync(int Id, string Image);
 
         Task<IEnumerable<Room>> GetRoomByTypeIdAsync(int id);
+        Task<IEnumerable<Room>> GetAvailableRoomsAsync(DateTime checkInDate, DateTime checkOutDate);
     }
 }

@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.API.Controllers
 {
-    public class ReservationController : Controller
+    [Route("api/[controller]")]
+    public class ReservationController : ControllerBase
     {
         private readonly IRoomService _roomService;
         private readonly IReservationService _reservationService;
@@ -55,16 +56,16 @@ namespace HotelBooking.API.Controllers
 
         [HttpPost]
         [Route("Reserve/{id}")]
-        public async Task<IActionResult> ReserveRoom(int id, ReservationAddDto reservationDto)
+        public async Task<IActionResult> ReserveRoom(int id, [FromBody] ReservationAddDto reservationDto)
         {
             try
             {
                 await _reservationService.ReserveRoomAsync(id, reservationDto);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex )
             {
-                return BadRequest("This room is not available for the selected dates.");
+                return BadRequest("This room is not available for the selected dates. " + ex.Message) ;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using HotelBooking.Shared.DTO;
+using HotelBooking.Web.Pages;
 using HotelBooking.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
@@ -63,6 +64,22 @@ namespace HotelBooking.Web.Services
 
 
         }
+
+        public async Task<IEnumerable<RoomDto>> GetAvailableRoomsAsync(FilterRoomDto filter)
+        {
+            var response = await _httpClient.GetAsync($"api/room/available?startDate={filter.StartDate.ToString("yyyy-MM-dd")}&endDate={filter.EndDate.ToString("yyyy-MM-dd")}");
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return Enumerable.Empty<RoomDto>();
+            }
+            else
+            {
+                return await response.Content.ReadFromJsonAsync<List<RoomDto>>();
+            }
+
+
+        }
+
 
         public async Task UpdateBookAsync(RoomDto roomDto)
         {

@@ -1,0 +1,19 @@
+﻿@inherits DisplayReservationBase
+
+@foreach (var item in reservationDtos)
+{
+    <h4 style="font-size: 15px"><strong>№: </strong> @item.RoomNumber </h4>
+    <p>User: @item.UserName</p>
+    <p>Start Date: @item.StartDate</p>
+    <p>End Date: @item.EndDate</p>
+    <p>Total Price: @item.TotalPrice.ToString("C")</p>
+
+            <div class="d-grid gap-2 mt-3">
+                <button  class="btn btn-secondary btnDelete buttonText"><i class="mdi mdi-plus-box"></i> Cancel Reservation</button>
+
+            </div>
+
+    <hr />
+}
+
+

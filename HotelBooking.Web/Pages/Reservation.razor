@@ -1,5 +1,45 @@
-﻿<h3>Reservation</h3>
+﻿@page "/Reservation"
 
-@code {
+@inherits ReservationBase
 
+@if (reservationDtos != null)
+{
+    if (reservationDtos.Count() > 0)
+    {
+        <h3 class="text-center mainHeaderText mb-1">Book Categories: </h3>
+
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-lg">
+                        <div class="card-body p-4">
+
+                            <DisplayReservation reservationDtos="reservationDtos"></DisplayReservation>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="mt-5 col-xs-1 center-block text-center">
+                <h3 style="font-family:'Anton';" class="">Empty</h3>
+            </div>
+        </div>
+    }
+
+}
+else
+{
+    <div class="row">
+        <div class="mt-5 col-xs-1 center-block text-center">
+            <h3 style="font-family:'Anton';">
+                <div class="spinner-border text-secondary me-2" role="status">
+                    <span class="visually-hidden">Loading</span>
+                </div>Loading...
+            </h3>
+        </div>
+    </div>
 }

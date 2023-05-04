@@ -12,5 +12,6 @@ namespace HotelBooking.API.Interfaces
         public Task DeleteRoomAsync(int id);
         public Task UpdateRoomAsync(RoomDto roomDto);
         public Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImage);
+        Task<IEnumerable<RoomDto>> GetAvailableRoomsAsync(FilterRoomDto filterRoomDto);
     }
 }

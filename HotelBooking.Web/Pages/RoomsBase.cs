@@ -10,7 +10,10 @@ namespace HotelBooking.Web.Pages
         public IRoomService roomService { get; set; }
 
         public IEnumerable<RoomDto> Rooms { get; set; }
+
+        public FilterRoomDto filter = new FilterRoomDto() { StartDate = DateTime.Today, EndDate = DateTime.Today.AddDays(1) };
         public string ErrorMessage { get; set; }
+        
         protected override async Task OnInitializedAsync()
         {
             try
@@ -25,6 +28,19 @@ namespace HotelBooking.Web.Pages
 
 
         }
+
+        protected async Task GetAvailableRoomsAsync(FilterRoomDto filterRoom)
+        {
+            try
+            {
+                Rooms = await roomService.GetAvailableRoomsAsync(filterRoom);
+            }
+            catch(Exception ex)
+            {
+                
+            }
+        }
+
     }
 }
  

@@ -12,5 +12,6 @@ namespace HotelBooking.Web.Services.Interfaces
         Task DeleteRoomAsync(int id);
         Task UpdateBookAsync(RoomDto roomDto);
         Task UpdateImageAsync(RoomUpdateImageDto roomUpdateImageDto);
+        Task<IEnumerable<RoomDto>> GetAvailableRoomsAsync(FilterRoomDto filter);
     }
 }

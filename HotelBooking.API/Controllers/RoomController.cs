@@ -45,6 +45,21 @@ namespace HotelBooking.API.Controllers
         }
 
         [HttpGet]
+        [Route("Available")]
+        public async Task<ActionResult<IEnumerable<RoomDto>>> AvailableRoom([FromQuery] FilterRoomDto filter)
+        {
+            var rooms = await _roomService.GetAvailableRoomsAsync(filter);
+            if (rooms != null)
+            {
+                return Ok(rooms);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
         [Route("RoomByType/{id:int}")]
         public async Task<ActionResult<RoomDto>> GetRoomByTypeId(int id)
         {
