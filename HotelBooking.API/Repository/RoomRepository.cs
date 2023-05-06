@@ -57,6 +57,18 @@ namespace HotelBooking.API.Repository
             await _dataBaseContext.SaveChangesAsync();
         }
 
-       
+
+        public async Task<IEnumerable<Room>> GetAvailableRoomsAsync(DateTime checkInDate, DateTime checkOutDate)
+        {
+            var availableRooms = _dataBaseContext.Rooms
+    .Where(r => !r.isAvailable) // відбираємо тільки доступні номери
+    .Where(r => !r.Reservations.Any( // та ті, які не мають бронювань у заданому періоді
+        res => (res.StartDate <= checkOutDate && res.EndDate >= checkInDate)
+    ));
+
+
+            return availableRooms;
+        }
+
     }
 }

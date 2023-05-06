@@ -7,5 +7,9 @@ namespace HotelBooking.Web.Pages
     {
         [Parameter]
         public IEnumerable<ReservationDto> reservationDtos { get; set; }
+
+        [Inject]
+        public NavigationManager navigationManager { get; set; }
+
     }
 }

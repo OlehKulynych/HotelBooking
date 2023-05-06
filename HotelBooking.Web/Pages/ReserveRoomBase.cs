@@ -48,6 +48,7 @@ namespace HotelBooking.Web.Pages
         {
             try
             {
+                Console.WriteLine(reservationDto.EndDate);
                 await _reservationService.ReserveRoomAsync(Id, reservationDto);
                 navigationManager.NavigateTo("/");
 

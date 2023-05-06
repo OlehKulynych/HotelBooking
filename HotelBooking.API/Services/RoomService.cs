@@ -58,5 +58,11 @@ namespace HotelBooking.API.Services
             var room = await _roomRepository.GetRoomByTypeIdAsync(id);
             return _mapper.Map<IEnumerable<RoomDto>>(room);
         }
+
+        public async Task<IEnumerable<RoomDto>> GetAvailableRoomsAsync(FilterRoomDto filterRoomDto)
+        {
+            var room = await _roomRepository.GetAvailableRoomsAsync(filterRoomDto.StartDate, filterRoomDto.EndDate);
+            return _mapper.Map<IEnumerable<RoomDto>>(room);
+        }
     }
 }
