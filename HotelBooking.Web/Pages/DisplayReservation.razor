@@ -1,0 +1,13 @@
+﻿@inherits DisplayReservationBase
+
+@foreach (var item in reservationDtos)
+{
+    <h4 style="font-size: 15px"><strong>Room: </strong> @item.RoomNumber</h4>
+    <p><strong>User: </strong>@item.UserName</p>
+    <p><strong>Start: </strong>@item.StartDate</p>
+    <p><strong>End: </strong>@item.EndDate</p>
+    <p><strong>Price: </strong>@item.TotalPrice.ToString("C")</p>
+    <hr />
+}
+
+

@@ -1,6 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Blazored.LocalStorage;
+@using HotelBooking.Shared.DTO;
+@using HotelBooking.Web.Providers;
+@using HotelBooking.Web.Services.Interfaces;
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">HotelBooking.Web</a>
+        <a class="navbar-brand" href="">Hotel</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,16 +20,52 @@
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                <span class="oi oi-plus" aria-hidden="true"></span> Rooms
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Room Types
             </NavLink>
         </div>
+
     </nav>
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="nav-item px-3">
+                @{
+                    var url = $"Reservation/UserReservation/{userDto.Id}";
+                }
+                <NavLink class="nav-link" href="@url">
+                    <span class="oi oi-plus" aria-hidden="true"></span> My Reservation
+                </NavLink>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="ADMIN">
+        <Authorized>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Room/AddRoom">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Room
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="RoomType/AddRoomType">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Add Room Type
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Reservation">
+                    <span class="oi oi-plus" aria-hidden="true"></span> All Reservation
+                </NavLink>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+
+
 </div>
+
 
 @code {
     private bool collapseNavMenu = true;
@@ -36,4 +76,32 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+    [Inject] IUserService userService { get; set; }
+    protected UserDto userDto = new UserDto();
+
+    [Inject] ILocalStorageService localStorageService { get; set; }
+    [Inject] AuthenticationStateProvider authenticationStateProvider { get; set; }
+
+    [Inject] NavigationManager navigationManager { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authstate = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        var name = user.Identity.Name;
+        userDto = await userService.GetCurrentUser(name);
+    }
+
+    private async Task SignOut()
+    {
+        if (await localStorageService.ContainKeyAsync("bearerToken"))
+        {
+            await localStorageService.RemoveItemAsync("bearerToken");
+            ((ClientAuthenticationStateProvider)authenticationStateProvider).SignOut();
+        }
+        StateHasChanged();
+        navigationManager.NavigateTo("/");
+    }
+
 }
+
