@@ -1,4 +1,30 @@
 ﻿@inherits DisplayRoomBase
+
+<div class="card mt-2 mb-2 p-2 rounded shadow">
+    <EditForm Model="@filter" OnSubmit="@(()=> GetAvailableRoomsAsync(filter))">
+        <DataAnnotationsValidator />
+
+        <div class="form-group row">
+            <label for="startDate" class="col-sm-1 col-form-label">Start Date:</label>
+            <div class="col-sm-4">
+                <InputDate id="startDate" class="form-control" @bind-Value="filter.StartDate" />
+                <ValidationMessage For="@(() => filter.StartDate)" />
+            </div>
+
+            <label for="endDate" class="col-sm-1 col-form-label">End Date:</label>
+            <div class="col-sm-4">
+                <InputDate id="endDate" class="form-control" @bind-Value="filter.EndDate" />
+                <ValidationMessage For="@(() => filter.EndDate)" />
+            </div>
+            <div class="form-group col-sm-2">
+                <button type="submit" class="btn btn-primary col-12"><span class="mdi mdi-calendar-search-outline me-2"></span> Search</button>
+            </div>
+
+        </div>
+    </EditForm>
+</div>
+
+
 @foreach (var item in Rooms)
 {
     if (!item.isAvailable)
@@ -10,17 +36,42 @@
 
                 <div class="card-body">
 
-                    <h4><a class="card-title"> @item.RoomNumber</a></h4>
+                    <h4 class="card-title"> @item.RoomNumber</h4>
                     <p class="card-text" style="color: grey"> @item.NumberOfBeds</p>
                     <p class="card-text" style="color: grey"> @item.RoomTypeName</p>
                     <p class="card-text price" style="font-size: 20px;"> @item.Price.ToString("C")</p>
                 </div>
             </div>
 
-            <div class="card-footer d-grid gap-2">
-                <button class="buybtn btn btn-dark buttonText" @onclick="() => Reserve(item.Id)">
-                    <i class="me-1 mdi mdi-cart-arrow-down"></i>  Reserve
+            <div class="card-footer d-flex btn-group">
+
+                <button type="button" class="btn btn-buy" @onclick="() => Reserve(item.Id)">
+                    <i class="me-1 mdi mdi-cart-arrow-down"></i> Reserve
                 </button>
+
+                <AuthorizeView Roles="ADMIN">
+                    <Authorized>
+                        <div class="dropdown btn-group">
+                            <button class="btn btn-buy dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item btn" href="/Room/EditRoom/@item.Id"><span class="mdi mdi-home-edit-outline me-2"></span>Edit</a></li>
+                                <li><a class="dropdown-item btn" href="/Room/EditRoomImage/@item.Id"><span class="mdi mdi-image-edit-outline me-2"></span>Edit Image</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form class="dropdown-item">
+
+
+                                        <button type="button" class="btn text-danger" @onclick="()=>DeleteRoom(item.Id)">
+                                            <span class="mdi mdi-trash-can-outline me-2"></span>Delete Room
+                                        </button>
+                                    </form>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </Authorized>
+                </AuthorizeView>
+
             </div>
 
         </div>
@@ -28,24 +79,3 @@
 
 
 }
-
-<style>
-    .card-footer {
-        background-color: #FFE3C8;
-    }
-
-    .img-book {
-        height: 300px;
-    }
-
-    a {
-        text-decoration: none;
-        color: black;
-    }
-
-    .buybtn:hover {
-        color: black;
-        background-color: grey;
-    }
-</style>
-

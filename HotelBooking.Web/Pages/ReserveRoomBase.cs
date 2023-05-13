@@ -2,6 +2,7 @@
 using HotelBooking.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using static HotelBooking.Web.Pages.Message;
 
 namespace HotelBooking.Web.Pages
 {
@@ -28,7 +29,29 @@ namespace HotelBooking.Web.Pages
         public IUserService _userService { get; set; }
         [Inject]
         AuthenticationStateProvider GetAuthenticationStateAsync { get; set; }
+        protected Message message = new Message();
+        public string messageText { get; set; }
+        public MessageType messageType { get; set; }
 
+        protected bool isElementHidden = true;
+
+        protected string GetElementStyle()
+        {
+            return isElementHidden ? "d-none" : string.Empty;
+        }
+        private void ShowSuccessMessage()
+        {
+            messageText = "Success Reserve";
+            messageType = MessageType.Success;
+
+            isElementHidden = false;
+        }
+        private void ShowErrorMessage(string message)
+        {
+            messageText = message;
+            messageType = MessageType.Error;
+            isElementHidden = false;
+        }
         protected override async Task OnInitializedAsync()
         {
             try
@@ -38,24 +61,26 @@ namespace HotelBooking.Web.Pages
 
                 var user = state.User;
                 reservationDto.UserId = (await _userService.GetCurrentUser(user.Identity.Name)).Id;
+                reservationDto.Room = roomDto;
             }
             catch(Exception ex)
             {
                 ErrorMessage = ex.Message;
+                ShowErrorMessage(ex.Message);
             }
         }
         protected async Task ReserveRoom()
         {
             try
             {
-                Console.WriteLine(reservationDto.EndDate);
-                await _reservationService.ReserveRoomAsync(Id, reservationDto);
-                navigationManager.NavigateTo("/");
+                await _reservationService.ReserveRoomAsync(reservationDto);
+                ShowSuccessMessage();
 
             }
             catch(Exception ex)
             {
                 ErrorMessage = ex.Message;
+                ShowErrorMessage(ex.Message);
             }
         }
     }

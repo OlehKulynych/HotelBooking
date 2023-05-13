@@ -1,6 +1,8 @@
 ﻿using HotelBooking.Shared.DTO;
 using HotelBooking.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using static HotelBooking.Web.Pages.Message;
 
 namespace HotelBooking.Web.Pages
 {
@@ -10,28 +12,69 @@ namespace HotelBooking.Web.Pages
         public IRoomTypeService roomTypeService { get; set; }
         [Inject]
         public NavigationManager navigationManager { get; set; }
+        [Inject]
+        protected IJSRuntime JSRuntime { get; set; }
 
         public RoomTypeDto roomType = new RoomTypeDto();
 
         [Parameter]
         public int Id { get; set; }
+        protected Message message = new Message();
+        public string messageText { get; set; }
+        public MessageType messageType { get; set; }
+
+        protected bool isElementHidden = true;
+
+        protected string GetElementStyle()
+        {
+            return isElementHidden ? "d-none" : string.Empty;
+        }
+        private void ShowSuccessMessage()
+        {
+            messageText = "Success Edit";
+            messageType = MessageType.Success;
+
+            isElementHidden = false;
+        }
+        private void ShowErrorMessage(string message)
+        {
+            messageText = message;
+            messageType = MessageType.Error;
+            isElementHidden = false;
+        }
         protected override async Task OnInitializedAsync()
         {
-            roomType = await roomTypeService.GetRoomTypeByIdAsync(Id);
+            try
+            {
+
+                roomType = await roomTypeService.GetRoomTypeByIdAsync(Id);
+            }
+            catch(Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
         }
         public string ErrorMessage { get; set; }
 
-        protected async Task UpdateCategory()
+
+        protected async Task UpdateRoomType()
         {
 
             try
             {
-                await roomTypeService.UpdateRoomTypeAsync(roomType);
-                navigationManager.NavigateTo("/RoomTypes");
+                bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+                if (confirmed)
+                {
+
+                    await roomTypeService.UpdateRoomTypeAsync(roomType);
+                    ShowSuccessMessage();
+                    
+                }
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+                ShowErrorMessage(ex.Message);
             }
 
         }

@@ -37,10 +37,11 @@ namespace HotelBooking.API.Services
             return reservationDtos;
         }
 
-        public async Task ReserveRoomAsync(int id, ReservationAddDto reservationAddDto)
+        public async Task ReserveRoomAsync(ReservationAddDto reservationAddDto)
         {
             var reservation = _mapper.Map<Reservation>(reservationAddDto);
-            await _reservationRepository.ReserveRoomAsync(id, reservation);
+ 
+            await _reservationRepository.ReserveRoomAsync(reservation);
         }
     }
 }

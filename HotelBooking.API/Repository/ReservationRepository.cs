@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.API.Repository
 {
-    public class ReservationRepository: IReservationRepository
+    public class ReservationRepository : IReservationRepository
     {
         private readonly HotelBookingDataBaseContext _dataBaseContext;
 
@@ -13,33 +13,28 @@ namespace HotelBooking.API.Repository
         {
             _dataBaseContext = dataBaseContext;
         }
-        public async Task ReserveRoomAsync(int id, Reservation reservation)
+        public async Task ReserveRoomAsync(Reservation reservation)
         {
+            var overlappingReservations = await _dataBaseContext.Reservations
+        .Where(r => r.RoomId == reservation.RoomId &&
+                    r.StartDate < reservation.EndDate &&
+                    r.EndDate > reservation.StartDate).ToListAsync();
 
-            var room = await _dataBaseContext.Rooms.FindAsync(id);
-            if (room != null)
+            if (overlappingReservations.Count > 0)
             {
-                var overlappingReservations = await _dataBaseContext.Reservations
-            .Where(r => r.RoomId == id &&
-                        r.StartDate < reservation.EndDate &&
-                        r.EndDate > reservation.StartDate).ToListAsync();
-
-                if (overlappingReservations.Count > 0)
-                {
-                    throw new Exception();
-                }
-                reservation.RoomId = id;
-                reservation.StatusReservation = StatusReservation.Created;
-                _dataBaseContext.Reservations.Add(reservation);
-                await _dataBaseContext.SaveChangesAsync();
+                throw new Exception();
             }
+            reservation.StatusReservation = StatusReservation.Created;
+            _dataBaseContext.Reservations.Add(new Reservation { Id = reservation.Id, StartDate = reservation.StartDate, EndDate = reservation.EndDate, RoomId = reservation.RoomId, UserId = reservation.UserId, TotalPrice = reservation.TotalPrice, StatusReservation = reservation.StatusReservation });
+
+            await _dataBaseContext.SaveChangesAsync();
         }
 
         public async Task CancelReservationAsync(int id)
         {
             var reservation = await _dataBaseContext.Reservations.FindAsync(id);
 
-            if(reservation != null)
+            if (reservation != null)
             {
                 reservation.StatusReservation = StatusReservation.Cancel;
                 _dataBaseContext.Reservations.Update(reservation);
@@ -50,13 +45,13 @@ namespace HotelBooking.API.Repository
 
         public async Task<IEnumerable<Reservation>> GetReservationsAsync()
         {
-            var reservations = await _dataBaseContext.Reservations.Include(u => u.User).ToListAsync();
+            var reservations = await _dataBaseContext.Reservations.Include(u => u.User).Include(r=>r.Room).ToListAsync();
             return reservations;
         }
 
         public async Task<IEnumerable<Reservation>> GetReservationsByUserIdAsync(string userId)
         {
-            var reservations = await _dataBaseContext.Reservations.Include(u => u.User).Where(u => u.UserId == userId).ToListAsync();
+            var reservations = await _dataBaseContext.Reservations.Include(u => u.User).Include(r => r.Room).Where(u => u.UserId == userId).ToListAsync();
             return reservations;
         }
 

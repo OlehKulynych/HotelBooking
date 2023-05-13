@@ -1,0 +1,76 @@
+﻿body {
+    background-color: #dff0e1;
+}
+
+.title-text {
+    font-family: "Raleway";
+    font-size: 40px;
+}
+.text-secondary {
+    font-family: "Roboto Slap";
+}
+
+.btn-buy {
+    background-color: #61ad53;
+    color: black;
+    border-radius: 3px;
+    border: 1px solid #14570c;
+}
+
+    .btn-buy:hover {
+        background-color: #14570c;
+        color: white;
+        border-radius: 3px;
+        border: 1px solid #61ad53;
+    }
+
+.btn-delete {
+    background-color: #f02936;
+    color: black;
+    border-radius: 3px;
+    border: 1px solid #800909;
+}
+
+    .btn-delete:hover {
+        background-color: #800909;
+        color: white;
+        border-radius: 3px;
+        border: 1px solid #f02936;
+    }
+
+.btn-edit {
+    background-color: #00e686;
+    color: black;
+    border-radius: 3px;
+    border: 1px solid #006e40;
+}
+
+    .btn-edit:hover {
+        background-color: #006e40;
+        color: white;
+        border-radius: 3px;
+        border: 1px solid #00e686;
+    }
+
+.btnAccount {
+    background-color: #6f8c61;
+    color: white;
+}
+
+    .btnAccount:hover {
+        border-color: #6f8c61;
+        color: black;
+        background-color: lightgray;
+    }
+
+
+.btnRegister {
+    background-color: #97c282;
+    color: white;
+}
+
+    .btnRegister:hover {
+        border-color: #97c282;
+        color: black;
+        background-color: lightgray;
+    }

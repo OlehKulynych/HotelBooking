@@ -14,55 +14,50 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                <span class="mdi mdi-bed me-3" aria-hidden="true"></span> Rooms
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Rooms
+            <NavLink class="nav-link" href="/RoomTypes" Match="NavLinkMatch.All">
+                <span class="mdi mdi-list-box-outline me-3" aria-hidden="true"></span> Room Types
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Room Types
-            </NavLink>
-        </div>
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    @{
+                        var url = $"Reservation/UserReservation/{userDto.Id}";
+                    }
+                    <NavLink class="nav-link" href="@url" Match="NavLinkMatch.All">
+                        <span class="mdi mdi-account-details me-3" aria-hidden="true"></span> My Reservation
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="ADMIN">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Room/AddRoom" Match="NavLinkMatch.All">
+                        <span class="mdi mdi-home-plus me-3" aria-hidden="true"></span> Add Room
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="RoomType/AddRoomType" Match="NavLinkMatch.All">
+                        <span class="mdi mdi-tag-plus me-3" aria-hidden="true"></span> Add Room Type
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Reservation" Match="NavLinkMatch.All">
+                        <span class="mdi mdi-view-list me-3" aria-hidden="true"></span> All Reservation
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
 
     </nav>
 
-    <AuthorizeView>
-        <Authorized>
-            <div class="nav-item px-3">
-                @{
-                    var url = $"Reservation/UserReservation/{userDto.Id}";
-                }
-                <NavLink class="nav-link" href="@url">
-                    <span class="oi oi-plus" aria-hidden="true"></span> My Reservation
-                </NavLink>
-            </div>
-        </Authorized>
-    </AuthorizeView>
-    <AuthorizeView Roles="ADMIN">
-        <Authorized>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="Room/AddRoom">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Add Room
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="RoomType/AddRoomType">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Add Room Type
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="Reservation">
-                    <span class="oi oi-plus" aria-hidden="true"></span> All Reservation
-                </NavLink>
-            </div>
-        </Authorized>
-    </AuthorizeView>
-
+    
 
 </div>
 
@@ -87,9 +82,13 @@
     protected async override Task OnInitializedAsync()
     {
         var authstate = await authenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authstate.User;
-        var name = user.Identity.Name;
-        userDto = await userService.GetCurrentUser(name);
+        if(authstate.User.Identity.IsAuthenticated)
+        {
+            var user = authstate.User;
+            var name = user.Identity.Name;
+            userDto = await userService.GetCurrentUser(name);
+        }
+
     }
 
     private async Task SignOut()

@@ -2,13 +2,14 @@
 @inherits ReserveRoomBase
 
 
-@if (ErrorMessage != null)
-{
-    <p>@ErrorMessage</p>
-}
+<div class="@GetElementStyle()">
+    <Message @ref="@message" message="@messageText" Type="@messageType"></Message>
+
+</div>
 
 
-<h3 class="text-center mainHeaderText mb-1">Reserve Room: </h3>
+
+<h3 class="text-center title-text mb-1">Reserve Room: </h3>
 
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -51,7 +52,7 @@
                             <p class="price m-2 me-md-2" style="font-size: 15px;">Total Price: @(TotalPrice.ToString("C"))</p>
                         </div>
                         <div class="d-grid gap-2 mt-3">
-                            <button @onclick="ReserveRoom" class="btn btn-secondary btnSubmit buttonText"><i class="mdi mdi-plus-box"></i> Reserve</button>
+                            <button @onclick="ReserveRoom" class="btn btn-buy buttonText"><i class="mdi mdi-home"></i> Reserve</button>
                             <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
                         </div>
                     }

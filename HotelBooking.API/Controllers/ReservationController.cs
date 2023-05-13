@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HotelBooking.API.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class ReservationController : ControllerBase
     {
         private readonly IRoomService _roomService;
@@ -56,11 +57,11 @@ namespace HotelBooking.API.Controllers
 
         [HttpPost]
         [Route("Reserve/{id}")]
-        public async Task<IActionResult> ReserveRoom(int id, [FromBody] ReservationAddDto reservationDto)
+        public async Task<IActionResult> ReserveRoom([FromBody] ReservationAddDto reservationDto)
         {
             try
             {
-                await _reservationService.ReserveRoomAsync(id, reservationDto);
+                await _reservationService.ReserveRoomAsync(reservationDto);
                 return Ok();
             }
             catch (Exception ex )

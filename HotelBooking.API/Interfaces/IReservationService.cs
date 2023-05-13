@@ -5,7 +5,7 @@ namespace HotelBooking.API.Interfaces
 {
     public interface IReservationService
     {
-        Task ReserveRoomAsync(int id, ReservationAddDto reservation);
+        Task ReserveRoomAsync(ReservationAddDto reservation);
 
         Task CancelReservationAsync(int id);
 

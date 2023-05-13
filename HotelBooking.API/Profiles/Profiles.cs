@@ -62,7 +62,9 @@ namespace HotelBooking.API.Profiles
                 opt => opt.MapFrom(src => src.StatusReservation.ToString()))
                 .ForMember(
                 dest => dest.UserName,
-                opt => opt.MapFrom(src => (src.User.Name + " " + src.User.Surname).ToString()));
+                opt => opt.MapFrom(src => (src.User.Name + " " + src.User.Surname).ToString()))
+                .ForMember(dest => dest.RoomNumber,
+                opt => opt.MapFrom(src => src.Room.RoomNumber));
 
         }
     }

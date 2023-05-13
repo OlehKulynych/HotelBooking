@@ -31,8 +31,8 @@
         padding-bottom: 1rem;
     }
 
-    .nav-item ::deep a {
-        color: #d7d7d7;
+    .nav-item ::deep .nav-link {
+        color: #102110;
         border-radius: 4px;
         height: 3rem;
         display: flex;
@@ -40,15 +40,15 @@
         line-height: 3rem;
     }
 
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
-    color: white;
-}
+    .nav-item ::deep .nav-link.active {
+        background-color: rgba(21, 56, 21, 0.25);
+        color: white;
+    }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
+    .nav-item ::deep .nav-link:hover {
+        background-color: rgba(21, 56, 21, 0.1);
+        color: white;
+    }
 
 @media (min-width: 641px) {
     .navbar-toggler {

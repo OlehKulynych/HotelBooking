@@ -3,12 +3,15 @@
 @inherits RoomByTypeBase
 
 
-<h3 class="text-center mainHeaderText">All Rooms</h3>
+<div class="@GetElementStyle()">
+    <Message @ref="@message" message="@messageText" Type="@messageType"></Message>
 
-@if (ErrorMessage != null)
-{
-    <h1>@ErrorMessage</h1>
-}
+</div>
+
+
+<h3 class="text-center title-text">Room: @typeDto.Name</h3>
+
+
 
 @if (Rooms == null)
 {

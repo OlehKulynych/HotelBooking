@@ -1,40 +1,38 @@
 ﻿@page "/RoomType/AddRoomType"
 @inherits AddRoomTypeBase
 
-@if (ErrorMessage != null)
-{
-    <p>@ErrorMessage</p>
-}
+
+<div class="@GetElementStyle()">
+    <Message @ref="@message" message="@messageText" Type="@messageType"></Message>
+
+</div>
 
 
-<h3 class="text-center mainHeaderText mb-1">Add Book Category:</h3>
+<h3 class="text-center title-text mb-1">Add Room Type:</h3>
 
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card shadow-lg">
                 <div class="card-body p-4">
-                    <form>
+                    <EditForm Model="roomType" OnValidSubmit="AddNewRoomType">
+                        <DataAnnotationsValidator />
                         <div class="form-group">
                             <label class="label-name">Name:</label>
                             <div>
                                 <input @bind="roomType.Name" class="form-control p-2 rounded-2" />
+                                <ValidationMessage For="@(()=> roomType.Name)" />
                             </div>
 
                         </div>
-                    </form>
 
-                    <div class="d-grid gap-2 mt-3">
-                        <button @onclick="@(async()=> {
-        if(roomType.Name != null)
-        {
-            await AddBookCategory();
-        }
-        })" class="btn btn-secondary btnSubmit buttonText">
-                            <i class="mdi mdi-plus-box"></i> Add Category
-                        </button>
-                        <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
-                    </div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="submit" class="btn btn-buy buttonText">
+                                <i class="mdi mdi-plus-box"></i> Add Category
+                            </button>
+                            <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
+                        </div>
+                    </EditForm>
 
 
 

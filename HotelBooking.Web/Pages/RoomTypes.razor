@@ -2,12 +2,17 @@
 @using HotelBooking.Shared.DTO;
 @inherits RoomTypesBase
 
+<div class="@GetElementStyle()">
+    <Message @ref="@message" message="@messageText" Type="@messageType"></Message>
+
+</div>
+
 
 @if (roomTypes != null)
 {
     if(roomTypes.Count() > 0)
     {
-        <h3 class="text-center mainHeaderText mb-1">Book Categories: </h3>
+        <h3 class="text-center title-text mb-1">Room Types: </h3>
 
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -17,13 +22,13 @@
 
                             @foreach (RoomTypeDto roomType in roomTypes)
                             {
-                                <h4 style="font-size: 15px"><strong>Name: </strong> @roomType.Name</h4>                                
+                                <h4 style="font-size: 15px"><strong>Name: </strong> <a style="text-decoration:none" href="/Room/RoomsByType/@roomType.Id">@roomType.Name</a> </h4>
                                 <AuthorizeView Roles="ADMIN">
 
                                     <Authorized>
                                         <div class="d-grid gap-2 mt-3">
-                                            <button @onclick="async() => await DeleteCategory(roomType.Id)" class="btn btn-secondary btnDelete buttonText"><i class="mdi mdi-plus-box"></i> Delete @roomType.Id</button>
-   
+                                            <a class="btn btn-edit" href="/RoomType/EditRoomType/@roomType.Id"> <i class="mdi mdi-pencil me-2"></i> Edit Type</a>
+                                            <button @onclick="async() => await DeleteCategory(roomType.Id)" class="btn btn-secondary btn-delete buttonText"><i class="mdi mdi-plus-box"></i> Delete @roomType.Id</button>                                           
                                         </div>
                                     </Authorized>
                                 </AuthorizeView>

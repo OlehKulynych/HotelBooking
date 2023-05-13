@@ -2,6 +2,8 @@
 using HotelBooking.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
+using static HotelBooking.Web.Pages.Message;
 
 namespace HotelBooking.Web.Pages
 {
@@ -11,6 +13,8 @@ namespace HotelBooking.Web.Pages
         public IRoomService roomService { get; set; }
         [Inject]
         public NavigationManager navigationManager { get; set; }
+        [Inject]
+        protected IJSRuntime JSRuntime { get; set; }
         public RoomDto room = new RoomDto();
 
         public RoomUpdateImageDto imagebook = new RoomUpdateImageDto();
@@ -21,7 +25,29 @@ namespace HotelBooking.Web.Pages
         public string ErrorMessage { get; set; }
 
         protected string contentString = null;
+        protected Message message = new Message();
+        public string messageText { get; set; }
+        public MessageType messageType { get; set; }
 
+        protected bool isElementHidden = true;
+
+        protected string GetElementStyle()
+        {
+            return isElementHidden ? "d-none" : string.Empty;
+        }
+        private void ShowSuccessMessage()
+        {
+            messageText = "Success Edit";
+            messageType = MessageType.Success;
+
+            isElementHidden = false;
+        }
+        private void ShowErrorMessage(string message)
+        {
+            messageText = message;
+            messageType = MessageType.Error;
+            isElementHidden = false;
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -33,15 +59,21 @@ namespace HotelBooking.Web.Pages
 
             try
             {
-                imagebook.Id = room.Id;
-                imagebook.Image = room.ImageString;
+                bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+                if (confirmed)
+                {
 
-                await roomService.UpdateImageAsync(imagebook);
-                navigationManager.NavigateTo("/");
+                    imagebook.Id = room.Id;
+                    imagebook.Image = room.ImageString;
+
+                    await roomService.UpdateImageAsync(imagebook);
+                    ShowSuccessMessage();
+                }
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+                ShowErrorMessage(ex.Message);
             }
 
         }
@@ -63,6 +95,7 @@ namespace HotelBooking.Web.Pages
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+                ShowErrorMessage(ex.Message);
             }
 
         }

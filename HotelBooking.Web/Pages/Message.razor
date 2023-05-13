@@ -1,0 +1,42 @@
+﻿<!-- MessageComponent.razor -->
+<div class="@GetCssClass()">
+    @message
+</div>
+
+@code {
+        private bool messageVisible = false;
+    [Parameter]
+    public string message { get; set; }
+
+    [Parameter]
+    public MessageType Type { get; set; }
+
+    private string GetCssClass()
+    {
+        switch (Type)
+        {
+            case MessageType.Success:
+                return "alert alert-success";
+            case MessageType.Error:
+                return "alert alert-danger";
+            case MessageType.Warning:
+                return "alert alert-warning";
+            default:
+                return "alert alert-info";
+        }
+    }
+
+    public void ShowMessage(string message, MessageType type)
+    {
+        this.message = message;
+        Type = type;
+    }
+
+    public enum MessageType
+    {
+        Success,
+        Error,
+        Warning,
+        Info
+    }
+}

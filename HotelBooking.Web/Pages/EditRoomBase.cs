@@ -1,6 +1,8 @@
 ﻿using HotelBooking.Shared.DTO;
 using HotelBooking.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using static HotelBooking.Web.Pages.Message;
 
 namespace HotelBooking.Web.Pages
 {
@@ -8,6 +10,8 @@ namespace HotelBooking.Web.Pages
     {
         [Inject]
         public IRoomService roomService { get; set; }
+        [Inject] protected IJSRuntime JSRuntime { get; set; }
+
         [Inject]
         public NavigationManager navigationManager { get; set; }
 
@@ -20,25 +24,64 @@ namespace HotelBooking.Web.Pages
 
         [Parameter]
         public int Id { get; set; }
+        protected Message message = new Message();
+        public string messageText { get; set; }
+        public MessageType messageType { get; set; }
+
+        protected bool isElementHidden = true;
+
+        protected string GetElementStyle()
+        {
+            return isElementHidden ? "d-none" : string.Empty;
+        }
+        private void ShowSuccessMessage()
+        {
+            messageText = "Success Edit";
+            messageType = MessageType.Success;
+
+            isElementHidden = false;
+        }
+        private void ShowErrorMessage(string message)
+        {
+            messageText = message;
+            messageType = MessageType.Error;
+            isElementHidden = false;
+        }
         protected override async Task OnInitializedAsync()
         {
-            room = await roomService.GetRoomById(Id);
+            try
+            {
+                room = await roomService.GetRoomById(Id);
 
-            roomTypeDtos = (await _roomTypeService.GetRoomTypesAsync()).ToList();
+                roomTypeDtos = (await _roomTypeService.GetRoomTypesAsync()).ToList();
+                ShowSuccessMessage();
+            }
+            catch(Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
+
         }
         public string ErrorMessage { get; set; }
 
-        protected async Task UpdateBook()
+        protected async Task UpdateRoom()
         {
 
             try
             {
-                await roomService.UpdateBookAsync(room);
-                navigationManager.NavigateTo("/");
+
+                bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+                if (confirmed)
+                {
+
+                    await roomService.UpdateBookAsync(room);
+                    ShowSuccessMessage();
+                }
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
+                ShowErrorMessage(ex.Message);
             }
 
         }

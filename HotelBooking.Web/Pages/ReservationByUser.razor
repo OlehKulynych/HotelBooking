@@ -1,12 +1,18 @@
-﻿<h3>ReservationByUser</h3>
+﻿@page "/Reservation/UserReservation/{userId}"
 
 @inherits ReservationByUserBase
+
+<div class="@GetElementStyle()">
+    <Message @ref="@message" message="@messageText" Type="@messageType"></Message>
+
+</div>
+
 
 @if (reservationDtos != null)
 {
     if (reservationDtos.Count() > 0)
     {
-        <h3 class="text-center mainHeaderText mb-1">Book Categories: </h3>
+        <h3 class="text-center title-text mb-1"> Reservation: </h3>
 
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">

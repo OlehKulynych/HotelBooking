@@ -43,9 +43,9 @@ namespace HotelBooking.Web.Services
             return await response.Content.ReadFromJsonAsync<IEnumerable<ReservationDto>>();
         }
 
-        public async Task ReserveRoomAsync(int id, ReservationAddDto reservationDto)
+        public async Task ReserveRoomAsync(ReservationAddDto reservationDto)
         {
-            var response = await _httpClient.PostAsJsonAsync($"/api/Reservation/Reserve/{id}", reservationDto);
+            var response = await _httpClient.PostAsJsonAsync($"/api/Reservation/Reserve/{reservationDto.Room.Id}", reservationDto);
 
         }
     }

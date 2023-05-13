@@ -6,12 +6,16 @@
     <p>User: @item.UserName</p>
     <p>Start Date: @item.StartDate</p>
     <p>End Date: @item.EndDate</p>
+    <p>Status: @item.StatusReservationName</p>
     <p>Total Price: @item.TotalPrice.ToString("C")</p>
+    @if (item.StatusReservationName != "Cancel")
+    {
+        <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-delete buttonText" @onclick="() => CancelReservation(item.Id)"><i class="mdi mdi-plus-box" ></i> Cancel Reservation</button>
 
-            <div class="d-grid gap-2 mt-3">
-                <button  class="btn btn-secondary btnDelete buttonText"><i class="mdi mdi-plus-box"></i> Cancel Reservation</button>
+        </div>
 
-            </div>
+    }
 
     <hr />
 }

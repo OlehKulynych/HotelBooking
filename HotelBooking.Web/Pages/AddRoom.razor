@@ -1,13 +1,13 @@
 ﻿@page "/Room/AddRoom"
 @inherits AddRoomBase
 
-@if (ErrorMessage != null)
-{
-    <p>@ErrorMessage</p>
-}
 
+<div class="@GetElementStyle()">
+    <Message @ref="@message" message="@messageText" Type="@messageType"></Message>
 
-<h3 class="text-center mainHeaderText mb-1">Add Book: </h3>
+</div>
+
+<h3 class="text-center mainHeaderText mb-1">Add Room: </h3>
 
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -16,11 +16,13 @@
                 <div class="card-body p-4">
 
 
-                    <EditForm Model="room">
+                    <EditForm Model="room" OnValidSubmit="AddNewRoom">
+                        <DataAnnotationsValidator />
                         <div class="form-group">
                             <label class="label-name">Room Number:</label>
                             <div>
                                 <input @bind="room.RoomNumber" type="number" class="form-control p-2 rounded-2" />
+                                <ValidationMessage For="@(()=> room.RoomNumber)" />
                             </div>
 
                         </div>
@@ -29,6 +31,7 @@
                             <label class="label-name">Description:</label>
                             <div>
                                 <input @bind="room.Description" class="form-control p-2 rounded-2" />
+                                <ValidationMessage For="@(()=> room.Description)" />
                             </div>
                         </div>
 
@@ -36,6 +39,7 @@
                             <label class="label-name">Price:</label>
                             <div>
                                 <input @bind="room.Price" type="number" class="form-control p-2 rounded-2" />
+                                <ValidationMessage For="@(()=> room.Price)" />
                             </div>
                         </div>
 
@@ -43,13 +47,14 @@
                             <label class="label-name"> Number of beds:</label>
                             <div>
                                 <input @bind="room.NumberOfBeds" type="number" class="form-control p-2 rounded-2" />
+                                <ValidationMessage For="@(()=> room.NumberOfBeds)" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="label-name">Image:</label>
                             <div>
                                 <InputFile OnChange="@OnInputFileChanged" class="form-control" />
-
+                                <ValidationMessage For="@(()=> room.ImageString)" />
 
                             </div>
                         </div>
@@ -64,15 +69,17 @@
                                     }
 
                                 </InputSelect>
+                                <ValidationMessage For="@(()=> room.RoomTypeId)" />
                             </div>
                         </div>
 
-                    </EditForm>
-                    <div class="d-grid gap-2 mt-3">
-                        <button @onclick="AddBook" class="btn btn-secondary btnSubmit buttonText"><i class="mdi mdi-plus-box"></i> Add</button>
-                        <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
-                    </div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="submit" class="btn btn-buy buttonText"><i class="mdi mdi-plus-box"></i> Add</button>
+                            <a class="btn btn-light btnCancel buttonText" href="/"><i class="mdi mdi-close-circle"></i>Cancel</a>
+                        </div>
 
+                    </EditForm>
+                    
                 </div>
             </div>
         </div>
